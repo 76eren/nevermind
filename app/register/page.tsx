@@ -42,12 +42,12 @@ export default function RegisterPage() {
           <RegisterForm />
 
           <p className="mt-7 text-center text-xs text-[#8c979d]">
-            New to Nevermind?{" "}
+            Already have an account?{" "}
             <Link
-              href="/register"
+              href="/login"
               className="text-[#10bec1] transition hover:text-[#5be1e3]"
             >
-              Create an account
+              Login to your account
             </Link>
           </p>
         </div>
