@@ -11,7 +11,21 @@ type AuthPageProps = {
   };
 };
 
+const quotes = [
+  "If they have no bread, let them eat cake!",
+  "[REMOVED TO CONFORM WITH LOCAL AND INTERNATIONAL CENSORSHIP LAWS]",
+  "DAMN IT ALL TO HELL",
+  "If I recall, an octogon is a shape with 8 sides right?",
+  "That's annoying. I guess I should just awkwardly laugh about it then... Heh...heh...heh heh...",
+  "Hold on Baby Gangsta!",
+  "Why is it that I get a shiver of excitement whenever the Shadows plead for their lives?",
+  "Ha! It's almost scary how good I am!",
+  "STUPIDSTUPIDSTUPIDSTUPIDSTUPID",
+];
+
 export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
   return (
     <main className="grid min-h-dvh bg-[#111111] text-white lg:grid-cols-2">
       <section
@@ -27,8 +41,8 @@ export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
             Nevermind
           </h1>
 
-          <p className="mt-3 max-w-md text-xl leading-8 text-white/90">
-            A very social social media platform.
+          <p className="mt-3 max-w-md text-sm leading-6 text-white/70">
+            {quote}
           </p>
         </div>
       </section>
