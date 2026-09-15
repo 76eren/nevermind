@@ -11,18 +11,6 @@ type AuthPageProps = {
   };
 };
 
-const quotes = [
-  "If they have no bread, let them eat cake!",
-  "[REMOVED TO CONFORM WITH LOCAL AND INTERNATIONAL CENSORSHIP LAWS]",
-  "DAMN IT ALL TO HELL",
-  "If I recall, an octogon is a shape with 8 sides right?",
-  "That's annoying. I guess I should just awkwardly laugh about it then... Heh...heh...heh heh...",
-  "Hold on Baby Gangsta!",
-  "Why is it that I get a shiver of excitement whenever the Shadows plead for their lives?",
-  "Ha! It's almost scary how good I am!",
-  "STUPIDSTUPIDSTUPIDSTUPIDSTUPID",
-];
-
 export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
@@ -79,3 +67,21 @@ export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
     </main>
   );
 }
+
+const quotes = [
+  "If they have no bread, let them eat cake!",
+  "[REMOVED TO CONFORM WITH LOCAL AND INTERNATIONAL CENSORSHIP LAWS]",
+  "DAMN IT ALL TO HELL",
+  "If I recall, an octogon is a shape with 8 sides right?",
+  "That's annoying. I guess I should just awkwardly laugh about it then... Heh...heh...heh heh...",
+  "Hold on Baby Gangsta!",
+  "Why is it that I get a shiver of excitement whenever the Shadows plead for their lives?",
+  "Ha! It's almost scary how good I am!",
+  "STUPIDSTUPIDSTUPIDSTUPIDSTUPID",
+  '"Too many books. Too few centuries." -Jay Kristoff',
+  "OBJECTION",
+  "If I\'m To Choose Between One Evil And Another, I'd Rather Not Choose At All.",
+  "Wake The F**k Up, Samurai! We Have A City To Burn",
+  "Hey, you! You're finally awake.",
+  "This is nothing to LOL about!",
+];
