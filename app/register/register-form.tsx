@@ -8,6 +8,7 @@ import {
   AuthSubmitButton,
   PasswordField,
 } from "@/components/auth/auth-form-controls";
+import { signUpAction } from "../actions/auth";
 
 type RegisterResponse = {
   message: string;
@@ -60,7 +61,7 @@ export function RegisterForm() {
   };
 
   return (
-    <form className="mt-10" onSubmit={handleSubmit}>
+    <form className="mt-10" action={signUpAction}>
       <AuthField
         label="Username"
         name="username"
@@ -83,7 +84,7 @@ export function RegisterForm() {
 
       <AuthField
         label="First Name"
-        name="Firstname"
+        name="firstname"
         type="text"
         placeholder="Sonia"
         autoComplete="given-name"
@@ -93,7 +94,7 @@ export function RegisterForm() {
 
       <AuthField
         label="Last name"
-        name="Lastname"
+        name="lastname"
         type="text"
         placeholder="Nevermind"
         autoComplete="family-name"

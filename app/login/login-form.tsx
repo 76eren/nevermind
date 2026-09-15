@@ -8,6 +8,7 @@ import {
   AuthSubmitButton,
   PasswordField,
 } from "@/components/auth/auth-form-controls";
+import { signInAction } from "../actions/auth";
 
 type LoginResponse = {
   message: string;
@@ -54,13 +55,13 @@ export function LoginForm() {
   };
 
   return (
-    <form className="mt-10" onSubmit={handleSubmit}>
+    <form className="mt-10" action={signInAction}>
       <AuthField
-        label="Username"
-        name="username"
-        type="text"
-        placeholder="s.nevermind"
-        autoComplete="username"
+        label="Email"
+        name="email"
+        type="email"
+        placeholder="s.nevermind@mail.com"
+        autoComplete="email"
         required
         disabled={isSubmitting}
       />
