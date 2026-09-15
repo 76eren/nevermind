@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { signOutAction } from "./actions/auth";
+import { SignOutForm } from "./sign-out-form";
 
 export default async function Home() {
   const session = await auth.api.getSession({
@@ -18,9 +18,7 @@ export default async function Home() {
           <p>Your last name is: {session.user.lastName}</p>
           <p>Your user ID is: {session.user.id}</p>
 
-          <form action={signOutAction}>
-            <button type="submit">Sign Out</button>
-          </form>
+          <SignOutForm />
         </div>
       ) : (
         <p>You are not logged in.</p>
