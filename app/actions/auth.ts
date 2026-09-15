@@ -84,8 +84,8 @@ export async function signInAction(
 }
 
 export async function signOutAction(
-  _previousState: AuthActionState,
-  _formData: FormData,
+  _previousState: AuthActionState | null,
+  _formData: FormData | null,
 ): Promise<AuthActionState> {
   void _previousState;
   void _formData;
