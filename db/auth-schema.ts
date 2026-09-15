@@ -12,7 +12,7 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  username: text("username").unique(),
+  username: text("username").unique().notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
 });
