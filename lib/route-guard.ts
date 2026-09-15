@@ -28,6 +28,7 @@ export async function requireSession(): Promise<AuthenticatedUser> {
   return {
     ...result.user,
     username,
+    bio: result.user.bio ?? null,
     session: result.session,
   };
 }

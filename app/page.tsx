@@ -14,6 +14,7 @@ export default async function Home() {
         <p>Your first name is: {user.firstName}</p>
         <p>Your last name is: {user.lastName}</p>
         <p>Your user ID is: {user.id}</p>
+        {user.bio ? <p>Your bio is: {user.bio}</p> : <p>You have no bio.</p>}
 
         <SignOutForm />
       </div>
