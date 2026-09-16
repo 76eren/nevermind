@@ -1,5 +1,5 @@
 import { AuthenticatedUser } from "@/lib/models/AuthenticatedUser";
-import { SignOutForm } from "./sign-out-form";
+import { SignOutForm } from "../sign-out-form";
 import { requireSession } from "@/lib/route-guard";
 
 export default async function Home() {

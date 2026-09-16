@@ -7,7 +7,7 @@ import {
   AuthSubmitButton,
   PasswordField,
 } from "@/components/auth/auth-form-controls";
-import { signUpAction } from "../actions/auth";
+import { signUpAction } from "../../actions/auth";
 
 export function RegisterForm() {
   const [state, formAction, isSubmitting] = useActionState(signUpAction, {
