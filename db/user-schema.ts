@@ -5,7 +5,8 @@ export const user = pgTable("user", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
-  image: text("image"),
+  image: text("image"), // Profile picture
+  banner: text("banner"), // Banner picture
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
