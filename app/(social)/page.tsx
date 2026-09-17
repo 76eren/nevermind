@@ -1,5 +1,4 @@
 import { AuthenticatedUser } from "@/lib/models/AuthenticatedUser";
-import { SignOutForm } from "../sign-out-form";
 import { requireSession } from "@/lib/route-guard";
 
 export default async function Home() {
@@ -14,8 +13,6 @@ export default async function Home() {
         <p>Your first name is: {user.firstName}</p>
         <p>Your last name is: {user.lastName}</p>
         <p>Your user ID is: {user.id}</p>
-
-        <SignOutForm />
       </div>
     </>
   );
