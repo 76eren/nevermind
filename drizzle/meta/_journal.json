@@ -36,6 +36,13 @@
       "when": 1789671031243,
       "tag": "0004_user-banner",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789672761207,
+      "tag": "0005_user-bio",
+      "breakpoints": true
     }
   ]
 }
