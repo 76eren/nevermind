@@ -3,53 +3,23 @@ import { db } from "@/db";
 import { user } from "@/db/auth-schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserByUsername } from "@/lib/data/user";
 
-// TODO: Consider moving this to a models folder
-type UserResponse = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  bio: string | null;
-  image: string | null;
-  banner: string | null;
-};
 export async function GET(request: NextRequest) {
-  let username = request.nextUrl.searchParams.get("username");
+  const username = request.nextUrl.searchParams.get("username");
 
   if (!username) {
-    return Response.json(
-      {
-        message: "Username is required.",
-      },
-      {
-        status: 400,
-      },
-    );
-  }
-
-  const userRecord = await db.query.user.findFirst({
-    where: eq(user.username, username),
-  });
-
-  if (!userRecord) {
     return NextResponse.json(
-      {
-        message: "User not found.",
-      },
-      {
-        status: 404,
-      },
+      { message: "Username is required." },
+      { status: 400 },
     );
   }
 
-  const userResponse: UserResponse = {
-    firstName: userRecord.firstName,
-    lastName: userRecord.lastName,
-    username: userRecord.username,
-    bio: userRecord.bio,
-    image: userRecord.image,
-    banner: userRecord.banner,
-  };
+  const userResponse = await getUserByUsername(username);
+
+  if (!userResponse) {
+    return NextResponse.json({ message: "User not found." }, { status: 404 });
+  }
 
   return NextResponse.json(userResponse);
 }
