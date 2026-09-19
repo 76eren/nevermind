@@ -6,24 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useActionState } from "react";
 
-const navigationItems = [
-  {
-    label: "Home",
-    href: "/",
-    icon: Home,
-  },
-  {
-    label: "Profile",
-    href: "/profile",
-    icon: User,
-  },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
-];
-
 type NavbarProps = {
   username: string;
   firstname: string;
@@ -35,6 +17,24 @@ export function Navbar({ username, firstname, lastname }: NavbarProps) {
     signOutAction,
     null,
   );
+
+  const navigationItems = [
+    {
+      label: "Home",
+      href: "/",
+      icon: Home,
+    },
+    {
+      label: "Profile",
+      href: `/profile/${username}`,
+      icon: User,
+    },
+    {
+      label: "Settings",
+      href: "/settings",
+      icon: Settings,
+    },
+  ];
 
   const pathname = usePathname();
 

@@ -1,0 +1,1 @@
+ALTER TABLE IF NOT EXISTS "user" ADD COLUMN "bio" text;

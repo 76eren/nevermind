@@ -19,8 +19,8 @@ export default async function SocialLayout({ children }: LayoutProps<"/">) {
         lastname={user.lastName}
       />
 
-      <main className="min-w-0 flex-1 pl-8">
-        <div className="max-w-7xl">{children}</div>
+      <main className="min-w-0 flex-1 px-8">
+        <div className="mx-auto max-w-7xl">{children}</div>
       </main>
     </div>
   );

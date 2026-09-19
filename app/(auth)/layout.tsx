@@ -1,17 +1,9 @@
-import Link from "next/link";
+import { connection } from "next/server";
 import type { ReactNode } from "react";
 
-type AuthPageProps = {
-  children: ReactNode;
-  title: string;
-  alternateAction: {
-    href: string;
-    label: string;
-    prompt: string;
-  };
-};
+type AuthLayoutProps = { children: ReactNode };
 
-export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
+export default async function AuthLayout({ children }: AuthLayoutProps) {
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   return (
@@ -47,21 +39,7 @@ export function AuthPage({ children, title, alternateAction }: AuthPageProps) {
             className="absolute -right-1 -top-7 h-4 w-4 border-r-2 border-t-2 border-[#13b7b9]"
           />
 
-          <h2 className="font-serif text-4xl font-bold tracking-tight">
-            {title}
-          </h2>
-
           {children}
-
-          <p className="mt-7 text-center text-xs text-[#8c979d]">
-            {alternateAction.prompt}{" "}
-            <Link
-              href={alternateAction.href}
-              className="text-[#10bec1] transition hover:text-[#5be1e3]"
-            >
-              {alternateAction.label}
-            </Link>
-          </p>
         </div>
       </section>
     </main>

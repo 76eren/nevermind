@@ -16,13 +16,17 @@
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.4",
+    "@blobatar/react": "^2.7.0",
     "better-auth": "^1.7.4",
+    "blobatar": "^2.7.0",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.46.0",
+    "minio": "^8.0.7",
     "next": "16.3.5",
     "pg": "^8.23.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-easy-crop": "^6.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
