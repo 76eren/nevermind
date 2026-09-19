@@ -19,6 +19,8 @@ type ProfileHeaderProps = {
   bannerUrl?: string | null;
   isOwnProfile?: boolean;
 };
+
+// TODO: This is prop drilling, find a better way to do this. For instance id gets passed down multiple times until it reaches the component using it
 export function ProfileHeader({
   id,
   name,
@@ -123,6 +125,7 @@ export function ProfileHeader({
 
       {isEditing && isOwnProfile && (
         <EditProfileForm
+          id={id}
           initialValues={initialValues}
           profilePictureUrl={profilePictureSrc}
           bannerUrl={bannerSrc}

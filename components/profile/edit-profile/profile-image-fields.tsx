@@ -3,6 +3,7 @@
 import { Camera, X } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { ProfileImageCropper } from "./profile-image-cropper";
+import { Blobatar } from "blobatar/react";
 
 type ImageKind = "avatar" | "banner";
 type ImageField = "profilePictureImage" | "profileBannerImage";
@@ -10,6 +11,7 @@ type PendingCrop = { kind: ImageKind; url: string };
 
 type ProfileImageFieldsProps = {
   name: string;
+  id: string;
   profilePictureUrl?: string | null;
   bannerUrl?: string | null;
   onChange: (field: ImageField, file: File) => void;
@@ -25,6 +27,7 @@ const acceptedImageTypes = [
 ];
 
 export function ProfileImageFields({
+  id,
   name,
   profilePictureUrl,
   bannerUrl,
@@ -150,7 +153,7 @@ export function ProfileImageFields({
           />
         ) : (
           <span className="grid size-full place-items-center text-3xl font-bold text-slate-500">
-            {name.charAt(0).toUpperCase()}
+            <Blobatar name={id} />
           </span>
         )}
         {previews.avatar && (

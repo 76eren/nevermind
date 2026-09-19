@@ -8,6 +8,7 @@ import { ProfileTextFields } from "./profile-text-fields";
 import type { EditProfileFormValues, EditProfileTextValues } from "./types";
 
 type EditProfileFormProps = {
+  id: string;
   initialValues: EditProfileTextValues;
   profilePictureUrl?: string | null;
   bannerUrl?: string | null;
@@ -16,6 +17,7 @@ type EditProfileFormProps = {
 };
 
 export function EditProfileForm({
+  id,
   initialValues,
   profilePictureUrl,
   bannerUrl,
@@ -96,6 +98,7 @@ export function EditProfileForm({
         <form action={handleSubmit} className="overflow-y-auto">
           <div className={isCropping ? "" : "space-y-5 p-5 sm:p-6"}>
             <ProfileImageFields
+              id={id}
               name={values.name}
               profilePictureUrl={profilePictureUrl}
               bannerUrl={bannerUrl}
