@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EditProfileForm } from "./edit-profile/edit-profile-form";
 import { updateProfile } from "./edit-profile/update-profile";
+import { Blobatar } from "@blobatar/react";
+import "blobatar/motion.css";
 
 type ProfileHeaderProps = {
+  id: string;
   name: string;
   username: string;
   firstName?: string;
@@ -17,6 +20,7 @@ type ProfileHeaderProps = {
   isOwnProfile?: boolean;
 };
 export function ProfileHeader({
+  id,
   name,
   username,
   firstName = "",
@@ -76,8 +80,8 @@ export function ProfileHeader({
                   className="size-full object-cover"
                 />
               ) : (
-                <div className="grid size-full place-items-center bg-slate-200 text-4xl font-bold text-slate-500">
-                  {name.charAt(0).toUpperCase()}
+                <div className="grid size-full place-items-center">
+                  <Blobatar name={id} animate="always" />
                 </div>
               )}
             </div>

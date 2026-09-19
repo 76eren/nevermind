@@ -5,6 +5,7 @@ import { user } from "@/db/auth-schema";
 import { eq } from "drizzle-orm";
 
 export type UserResponse = {
+  id: string;
   name: string;
   firstName: string;
   lastName: string;
@@ -19,6 +20,7 @@ export async function getUserByUsername(
 ): Promise<UserResponse | null> {
   const userRecord = await db.query.user.findFirst({
     columns: {
+      id: true,
       name: true,
       firstName: true,
       lastName: true,

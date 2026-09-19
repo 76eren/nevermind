@@ -23,6 +23,7 @@ export default async function Profile({ params }: ProfilePageProps) {
     <>
       <div className="mx-auto w-full max-w-6xl xl:w-[calc(100vw-36rem-4rem)] xl:-translate-x-36">
         <ProfileHeader
+          id={profile.id}
           name={profile.name}
           username={profile.username}
           firstName={profile.firstName}

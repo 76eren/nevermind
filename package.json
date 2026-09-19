@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.4",
+    "@blobatar/react": "^2.7.0",
     "better-auth": "^1.7.4",
+    "blobatar": "^2.7.0",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.46.0",
     "minio": "^8.0.7",
