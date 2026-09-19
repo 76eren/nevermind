@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
 }
 
 // Reason I have this is because not all properties CAN be changed
-type UpdateUserRequest = {
+export type UpdateUserRequest = {
+  name?: string;
   firstName?: string;
   lastName?: string;
   bio?: string | null;
@@ -43,28 +44,27 @@ export async function PATCH(request: NextRequest) {
       { status: 401 },
     );
   }
-  const body = (await request.json()) as UpdateUserRequest;
-  let currentUser = session.user;
+  const body = (
+    request.headers.get("content-type")?.startsWith("multipart/form-data")
+      ? Object.fromEntries(await request.formData())
+      : await request.json()
+  ) as UpdateUserRequest;
 
-  // Overwrite all properties of currentUser with all existing properties of body that are not null or undefined
-  currentUser = {
-    ...currentUser,
-    ...Object.fromEntries(
-      Object.entries(body).filter(
-        ([key, value]) => value !== null && value !== undefined,
-      ),
-    ),
-  };
+  console.log("body", body);
+
+  const updates: Partial<typeof user.$inferInsert> = {};
+  if (body.name !== undefined) updates.name = body.name;
+  if (body.firstName !== undefined) updates.firstName = body.firstName;
+  if (body.lastName !== undefined) updates.lastName = body.lastName;
+  if (body.bio !== undefined) updates.bio = body.bio;
+
+  if (Object.keys(updates).length === 0) {
+    return NextResponse.json(session.user);
+  }
 
   const [updatedUser] = await db
     .update(user)
-    .set({
-      firstName: currentUser.firstName,
-      lastName: currentUser.lastName,
-      bio: currentUser.bio,
-      banner: currentUser.banner,
-      image: currentUser.image,
-    })
+    .set(updates)
     .where(eq(user.id, session.user.id))
     .returning();
 
