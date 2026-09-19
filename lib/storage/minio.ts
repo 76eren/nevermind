@@ -2,12 +2,22 @@ import "server-only";
 
 import { Client } from "minio";
 
-export const MEDIA_BUCKET = process.env.MINIO_BUCKET!;
+function getRequiredEnvironmentVariable(name: string): string {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`Missing environment variable: ${name}`);
+  }
+
+  return value;
+}
+
+export const minioBucket = getRequiredEnvironmentVariable("MINIO_BUCKET");
 
 export const minioClient = new Client({
-  endPoint: process.env.MINIO_ENDPOINT!,
-  port: Number(process.env.MINIO_PORT ?? 9000),
+  endPoint: getRequiredEnvironmentVariable("MINIO_ENDPOINT"),
+  port: Number(getRequiredEnvironmentVariable("MINIO_PORT")),
   useSSL: process.env.MINIO_USE_SSL === "true",
-  accessKey: process.env.MINIO_ACCESS_KEY!,
-  secretKey: process.env.MINIO_SECRET_KEY!,
+  accessKey: getRequiredEnvironmentVariable("MINIO_ROOT_USER"),
+  secretKey: getRequiredEnvironmentVariable("MINIO_ROOT_PASSWORD"),
 });

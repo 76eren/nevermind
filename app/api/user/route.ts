@@ -4,6 +4,10 @@ import { user } from "@/db/auth-schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserByUsername } from "@/lib/data/user";
+import {
+  uploadBanner,
+  uploadProfilePicture,
+} from "@/lib/storage/images-upload";
 
 export async function GET(request: NextRequest) {
   const username = request.nextUrl.searchParams.get("username");
@@ -50,13 +54,27 @@ export async function PATCH(request: NextRequest) {
       : await request.json()
   ) as UpdateUserRequest;
 
-  console.log("body", body);
-
   const updates: Partial<typeof user.$inferInsert> = {};
   if (body.name !== undefined) updates.name = body.name;
   if (body.firstName !== undefined) updates.firstName = body.firstName;
   if (body.lastName !== undefined) updates.lastName = body.lastName;
   if (body.bio !== undefined) updates.bio = body.bio;
+
+  if (body.profilePictureImage) {
+    const uploadedImage = await uploadProfilePicture(
+      session.user.id,
+      body.profilePictureImage,
+    );
+    updates.image = uploadedImage.objectKey;
+  }
+
+  if (body.profileBannerImage) {
+    const uploadedImage = await uploadBanner(
+      session.user.id,
+      body.profileBannerImage,
+    );
+    updates.banner = uploadedImage.objectKey;
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json(session.user);
@@ -67,8 +85,6 @@ export async function PATCH(request: NextRequest) {
     .set(updates)
     .where(eq(user.id, session.user.id))
     .returning();
-
-  // TODO: If the profile picture or banner image is updated, we need to update it on min/io too.
 
   return NextResponse.json(updatedUser);
 }

@@ -29,10 +29,8 @@ export default async function Profile({ params }: ProfilePageProps) {
           firstName={profile.firstName}
           lastName={profile.lastName}
           bio={profile.bio}
-          profilePictureUrl={
-            profile.image ? `/api/images/${profile.image}` : null
-          }
-          bannerUrl={profile.banner ? `/api/images/${profile.banner}` : null}
+          profilePictureUrl={profile.image}
+          bannerUrl={profile.banner}
           isOwnProfile={user.username === profile.username}
         />
       </div>

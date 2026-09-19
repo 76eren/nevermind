@@ -32,6 +32,12 @@ export function ProfileHeader({
 }: ProfileHeaderProps) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const profilePictureSrc = profilePictureUrl
+    ? `/api/images?key=${encodeURIComponent(profilePictureUrl)}`
+    : null;
+  const bannerSrc = bannerUrl
+    ? `/api/images?key=${encodeURIComponent(bannerUrl)}`
+    : null;
   const initialValues = {
     name,
     firstName,
@@ -59,9 +65,9 @@ export function ProfileHeader({
         </header>
 
         <div className="relative h-48 w-full bg-gray-200 sm:h-64">
-          {bannerUrl ? (
+          {bannerSrc ? (
             <img
-              src={bannerUrl}
+              src={bannerSrc}
               alt={`${name}'s profile banner`}
               className="size-full object-cover"
             />
@@ -73,9 +79,9 @@ export function ProfileHeader({
         <div className="relative px-5 pb-8 sm:px-7">
           <div className="absolute left-5 top-0 -translate-y-1/2 sm:left-7">
             <div className="size-32 overflow-hidden rounded-full border-4 border-white bg-gray-200 sm:size-36">
-              {profilePictureUrl ? (
+              {profilePictureSrc ? (
                 <img
-                  src={profilePictureUrl}
+                  src={profilePictureSrc}
                   alt={`${name}'s profile picture`}
                   className="size-full object-cover"
                 />
@@ -118,8 +124,8 @@ export function ProfileHeader({
       {isEditing && isOwnProfile && (
         <EditProfileForm
           initialValues={initialValues}
-          profilePictureUrl={profilePictureUrl}
-          bannerUrl={bannerUrl}
+          profilePictureUrl={profilePictureSrc}
+          bannerUrl={bannerSrc}
           onClose={() => setIsEditing(false)}
           onApply={async (values) => {
             await updateProfile(values, initialValues);
