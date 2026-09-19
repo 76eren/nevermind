@@ -8,4 +8,6 @@ export type EditProfileTextValues = {
 export type EditProfileFormValues = EditProfileTextValues & {
   profilePictureImage: File | null;
   profileBannerImage: File | null;
+  removeProfilePicture: boolean;
+  removeProfileBanner: boolean;
 };

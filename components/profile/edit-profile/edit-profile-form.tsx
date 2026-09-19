@@ -26,6 +26,8 @@ export function EditProfileForm({
     ...initialValues,
     profilePictureImage: null,
     profileBannerImage: null,
+    removeProfilePicture: false,
+    removeProfileBanner: false,
   });
   const [isCropping, setIsCropping] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
@@ -98,7 +100,24 @@ export function EditProfileForm({
               profilePictureUrl={profilePictureUrl}
               bannerUrl={bannerUrl}
               onChange={(field, file) =>
-                setValues((current) => ({ ...current, [field]: file }))
+                setValues((current) => ({
+                  ...current,
+                  [field]: file,
+                  [field === "profilePictureImage"
+                    ? "removeProfilePicture"
+                    : "removeProfileBanner"]: false,
+                }))
+              }
+              onRemove={(kind) =>
+                setValues((current) => ({
+                  ...current,
+                  [kind === "avatar"
+                    ? "profilePictureImage"
+                    : "profileBannerImage"]: null,
+                  [kind === "avatar"
+                    ? "removeProfilePicture"
+                    : "removeProfileBanner"]: true,
+                }))
               }
               onCroppingChange={setIsCropping}
             />

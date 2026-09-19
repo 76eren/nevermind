@@ -36,6 +36,8 @@ export type UpdateUserRequest = {
   bio?: string | null;
   profilePictureImage?: File | null;
   profileBannerImage?: File | null;
+  removeProfilePicture?: boolean | "true";
+  removeProfileBanner?: boolean | "true";
 };
 export async function PATCH(request: NextRequest) {
   const session = await auth.api.getSession({
@@ -54,11 +56,18 @@ export async function PATCH(request: NextRequest) {
       : await request.json()
   ) as UpdateUserRequest;
 
+  const removeProfilePicture =
+    body.removeProfilePicture === true || body.removeProfilePicture === "true";
+  const removeProfileBanner =
+    body.removeProfileBanner === true || body.removeProfileBanner === "true";
+
   const updates: Partial<typeof user.$inferInsert> = {};
   if (body.name !== undefined) updates.name = body.name;
   if (body.firstName !== undefined) updates.firstName = body.firstName;
   if (body.lastName !== undefined) updates.lastName = body.lastName;
   if (body.bio !== undefined) updates.bio = body.bio;
+  if (removeProfilePicture) updates.image = null;
+  if (removeProfileBanner) updates.banner = null;
 
   if (body.profilePictureImage) {
     const uploadedImage = await uploadProfilePicture(

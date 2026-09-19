@@ -18,6 +18,12 @@ export async function updateProfile(
   if (values.profileBannerImage) {
     requestBody.set("profileBannerImage", values.profileBannerImage);
   }
+  if (values.removeProfilePicture) {
+    requestBody.set("removeProfilePicture", "true");
+  }
+  if (values.removeProfileBanner) {
+    requestBody.set("removeProfileBanner", "true");
+  }
 
   if ([...requestBody.keys()].length === 0) return;
 

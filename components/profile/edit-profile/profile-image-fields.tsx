@@ -1,6 +1,6 @@
 "use client";
 
-import { Camera } from "lucide-react";
+import { Camera, X } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { ProfileImageCropper } from "./profile-image-cropper";
 
@@ -13,6 +13,7 @@ type ProfileImageFieldsProps = {
   profilePictureUrl?: string | null;
   bannerUrl?: string | null;
   onChange: (field: ImageField, file: File) => void;
+  onRemove: (kind: ImageKind) => void;
   onCroppingChange: (isCropping: boolean) => void;
 };
 
@@ -28,6 +29,7 @@ export function ProfileImageFields({
   profilePictureUrl,
   bannerUrl,
   onChange,
+  onRemove,
   onCroppingChange,
 }: ProfileImageFieldsProps) {
   const [previews, setPreviews] = useState({
@@ -87,6 +89,12 @@ export function ProfileImageFields({
     onCroppingChange(false);
   }
 
+  function removeImage(kind: ImageKind) {
+    releaseUrl(previews[kind]);
+    setPreviews((current) => ({ ...current, [kind]: null }));
+    onRemove(kind);
+  }
+
   if (pendingCrop) {
     return (
       <ProfileImageCropper
@@ -108,6 +116,16 @@ export function ProfileImageFields({
             alt="Banner preview"
             className="size-full object-cover"
           />
+        )}
+        {previews.banner && (
+          <button
+            type="button"
+            onClick={() => removeImage("banner")}
+            aria-label="Remove banner"
+            className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full bg-black/65 text-white hover:bg-black/80"
+          >
+            <X className="size-5" aria-hidden="true" />
+          </button>
         )}
         <label className="absolute inset-0 grid cursor-pointer place-items-center focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-950">
           <span className="flex items-center gap-2 rounded-full bg-black/65 px-4 py-2 text-sm font-bold text-white">
@@ -134,6 +152,16 @@ export function ProfileImageFields({
           <span className="grid size-full place-items-center text-3xl font-bold text-slate-500">
             {name.charAt(0).toUpperCase()}
           </span>
+        )}
+        {previews.avatar && (
+          <button
+            type="button"
+            onClick={() => removeImage("avatar")}
+            aria-label="Remove profile picture"
+            className="absolute right-1 top-1 z-10 grid size-7 place-items-center rounded-full bg-black/65 text-white hover:bg-black/80"
+          >
+            <X className="size-4" aria-hidden="true" />
+          </button>
         )}
         <label className="absolute inset-0 grid cursor-pointer place-items-center rounded-full bg-black/35 text-white focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-950">
           <Camera className="size-6" aria-hidden="true" />
