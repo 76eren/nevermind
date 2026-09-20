@@ -1,6 +1,9 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 
 import * as authSchema from "./auth-schema";
+import { post } from "./post-schema";
+import { postLikes } from "./post-likes-schema";
+import { reposts } from "./reposts-schema";
 
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -11,5 +14,8 @@ if (!databaseUrl) {
 export const db = drizzle(databaseUrl, {
   schema: {
     ...authSchema,
+    post,
+    postLikes,
+    reposts,
   },
 });

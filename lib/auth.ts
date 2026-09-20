@@ -28,6 +28,18 @@ export const auth = betterAuth({
         required: true,
         input: true,
       },
+
+      banner: {
+        type: "string",
+        required: false,
+        input: true,
+      },
+
+      bio: {
+        type: "string",
+        required: false,
+        input: true,
+      },
     },
   },
 
