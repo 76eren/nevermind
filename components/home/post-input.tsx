@@ -9,6 +9,7 @@ import {
   type ChangeEvent,
   type SubmitEvent,
 } from "react";
+import { Blobatar } from "blobatar/react";
 
 const MAX_MESSAGE_LENGTH = 280;
 
@@ -114,7 +115,7 @@ export function PostInput({ name, image }: PostInputProps) {
               className="size-full object-cover"
             />
           ) : (
-            name.charAt(0).toUpperCase()
+            <Blobatar name={name} animate="always" />
           )}
         </div>
 

@@ -1,5 +1,5 @@
 import { ProfileHeader } from "@/components/profile/header/profile-header";
-import PostsView from "@/components/profile/posts/PostsView";
+import ProfilePostsPage from "@/components/profile/posts/ProfilePostsView";
 import { getUserByUsername } from "@/lib/data/user";
 import { AuthenticatedUser } from "@/lib/models/AuthenticatedUser";
 import { requireSession } from "@/lib/route-guard";
@@ -34,9 +34,14 @@ export default async function Profile({ params }: ProfilePageProps) {
           bannerUrl={profile.banner}
           isOwnProfile={user.username === profile.username}
         />
-      </div>
 
-      <PostsView />
+        <ProfilePostsPage
+          username={profile.username}
+          firstname={profile.firstName}
+          lastname={profile.lastName}
+          profilePictureUrl={profile.image}
+        />
+      </div>
     </>
   );
 }

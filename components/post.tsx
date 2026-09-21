@@ -1,5 +1,6 @@
 "use client";
 
+import { Blobatar } from "blobatar/react";
 import { Heart, MessageCircle, Repeat2 } from "lucide-react";
 import { useState } from "react";
 
@@ -12,36 +13,29 @@ export type PostModel = {
   updatedAt: Date;
 };
 
-function formatPostDate(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(date));
-}
-
-function getPostImageSrc(imageUrl: string) {
-  if (
-    imageUrl.startsWith("/") ||
-    imageUrl.startsWith("http://") ||
-    imageUrl.startsWith("https://")
-  ) {
-    return imageUrl;
-  }
-
-  return `/api/images?key=${encodeURIComponent(imageUrl)}`;
-}
+type PostProps = {
+  userId: string;
+  post: PostModel;
+  username: string;
+  firstName: string;
+  lastName: string;
+  profilePictureUrl: string | null;
+};
 
 // This is a single post, can be used on both profile and home page. This is
 // not a comment, which will use a different format.
-export default function Post({ post }: { post: PostModel }) {
+export default function Post({
+  userId,
+  post,
+  username,
+  firstName,
+  lastName,
+  profilePictureUrl,
+}: PostProps) {
   const [isCommenting, setIsCommenting] = useState(false);
   const [isReposted, setIsReposted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-  const shortAuthorId = post.authorId.slice(0, 12);
-  const authorInitial = post.authorId.charAt(0).toUpperCase() || "U";
   const createdAt = new Date(post.createdAt);
 
   function handleCommentClick() {
@@ -57,19 +51,31 @@ export default function Post({ post }: { post: PostModel }) {
   }
 
   return (
-    <article className="border-b border-[#eceef0] bg-white px-5 py-4 text-[#15171a] transition-colors hover:bg-[#fafafa] sm:px-7">
+    <article className="border-b border-[#eceef0] bg-white px-5 py-4 text-[#15171a] transition-colors hover:bg-[#fafafa] sm:px-7 overflow-hidden">
       <div className="flex gap-3">
         <div
           aria-hidden="true"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#15171a] text-sm font-bold text-white"
+          className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#15171a] text-sm font-bold text-white"
         >
-          {authorInitial}
+          {profilePictureUrl ? (
+            <img
+              src={`/api/images?key=${encodeURIComponent(profilePictureUrl)}`}
+              alt={`${name}'s profile picture`}
+              className="size-full object-cover"
+            />
+          ) : (
+            <div className="grid size-full place-items-center">
+              <Blobatar name={userId} animate="always" />
+            </div>
+          )}
         </div>
 
         <div className="min-w-0 flex-1">
           <header className="flex min-w-0 items-center gap-1 text-[15px]">
-            <span className="truncate font-bold">User {shortAuthorId}</span>
-            <span className="truncate text-[#687078]">@{shortAuthorId}</span>
+            <span className="truncate font-bold">
+              {firstName} {lastName}
+            </span>
+            <span className="truncate text-[#687078]">@{username}</span>
             <span aria-hidden="true" className="text-[#687078]">
               ·
             </span>
@@ -88,7 +94,6 @@ export default function Post({ post }: { post: PostModel }) {
 
           {post.imageUrl && (
             <div className="mt-3 overflow-hidden rounded-2xl border border-[#dfe3e6] bg-[#f4f5f6]">
-              {/* The source can be either a storage key or an already-resolved URL. */}
               <img
                 src={getPostImageSrc(post.imageUrl)}
                 alt="Post attachment"
@@ -177,4 +182,25 @@ export default function Post({ post }: { post: PostModel }) {
       </div>
     </article>
   );
+}
+
+function formatPostDate(date: Date) {
+  return new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(date));
+}
+
+function getPostImageSrc(imageUrl: string) {
+  if (
+    imageUrl.startsWith("/") ||
+    imageUrl.startsWith("http://") ||
+    imageUrl.startsWith("https://")
+  ) {
+    return imageUrl;
+  }
+
+  return `/api/images?key=${encodeURIComponent(imageUrl)}`;
 }
