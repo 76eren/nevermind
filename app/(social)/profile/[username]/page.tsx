@@ -1,4 +1,5 @@
-import { ProfileHeader } from "@/components/profile/profile-header";
+import { ProfileHeader } from "@/components/profile/header/profile-header";
+import PostsView from "@/components/profile/posts/PostsView";
 import { getUserByUsername } from "@/lib/data/user";
 import { AuthenticatedUser } from "@/lib/models/AuthenticatedUser";
 import { requireSession } from "@/lib/route-guard";
@@ -34,9 +35,8 @@ export default async function Profile({ params }: ProfilePageProps) {
           isOwnProfile={user.username === profile.username}
         />
       </div>
-      <div className="flex flex-col items-center justify-center py-18">
-        <p className="text-2xl font-bold">This user has no posts yet</p>
-      </div>
+
+      <PostsView />
     </>
   );
 }
