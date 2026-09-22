@@ -17,6 +17,8 @@ export default async function SocialLayout({ children }: LayoutProps<"/">) {
         username={user.username}
         firstname={user.firstName}
         lastname={user.lastName}
+        userId={user.id}
+        profilePictureUrl={user.image || null}
       />
 
       <main className="min-w-0 flex-1 px-8">

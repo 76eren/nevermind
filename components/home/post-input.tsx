@@ -1,5 +1,6 @@
 "use client";
 
+import ProfilePictureView from "@/components/profile-picture-view";
 import Image from "next/image";
 import { ImagePlus, X } from "lucide-react";
 import {
@@ -9,11 +10,11 @@ import {
   type ChangeEvent,
   type SubmitEvent,
 } from "react";
-import { Blobatar } from "blobatar/react";
 
 const MAX_MESSAGE_LENGTH = 280;
 
 type PostInputProps = {
+  userId: string;
   name: string;
   image?: string | null;
 };
@@ -23,7 +24,7 @@ type SelectedPostImage = {
   previewUrl: string;
 };
 
-export function PostInput({ name, image }: PostInputProps) {
+export function PostInput({ userId, name, image }: PostInputProps) {
   const [message, setMessage] = useState("");
   const [postImage, setPostImage] = useState<SelectedPostImage | null>(null);
   const [isPosting, setIsPosting] = useState(false);
@@ -105,18 +106,11 @@ export function PostInput({ name, image }: PostInputProps) {
     >
       <div className="flex gap-4">
         <div className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#15171a] text-sm font-semibold text-white">
-          {image ? (
-            <Image
-              src={`/api/images?key=${encodeURIComponent(image)}`}
-              alt=""
-              width={44}
-              height={44}
-              unoptimized
-              className="size-full object-cover"
-            />
-          ) : (
-            <Blobatar name={name} animate="always" />
-          )}
+          <ProfilePictureView
+            imageUrl={image}
+            userId={userId}
+            name={name}
+          />
         </div>
 
         <div className="min-w-0 flex-1">

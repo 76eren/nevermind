@@ -9,7 +9,7 @@ export default async function Home() {
       <h1 className="border-b border-[#eceef0] px-5 py-5 text-xl font-bold text-[#15171a] sm:px-7">
         Home
       </h1>
-      <PostInput name={user.name} image={user.image} />
+      <PostInput userId={user.id} name={user.name} image={user.image} />
     </section>
   );
 }

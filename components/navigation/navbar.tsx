@@ -5,14 +5,23 @@ import { ChevronDown, Home, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useActionState } from "react";
+import ProfilePictureView from "@/components/profile-picture-view";
 
 type NavbarProps = {
+  userId: string;
+  profilePictureUrl?: string | null;
   username: string;
   firstname: string;
   lastname: string;
 };
 
-export function Navbar({ username, firstname, lastname }: NavbarProps) {
+export function Navbar({
+  username,
+  firstname,
+  lastname,
+  userId,
+  profilePictureUrl,
+}: NavbarProps) {
   const [signOutState, signOutFormAction, isSigningOut] = useActionState(
     signOutAction,
     null,
@@ -38,9 +47,6 @@ export function Navbar({ username, firstname, lastname }: NavbarProps) {
 
   const pathname = usePathname();
 
-  const initials =
-    firstname.charAt(0).toUpperCase() + lastname.charAt(0).toUpperCase();
-
   return (
     <aside className="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-[#eceef0] bg-white px-5 py-7 text-[#15171a]">
       <Link href="/" className="mb-10 inline-flex items-center">
@@ -57,8 +63,12 @@ export function Navbar({ username, firstname, lastname }: NavbarProps) {
         href="/profile"
         className="mb-10 flex items-center gap-3 rounded-xl bg-[#f4f5f6] px-4 py-4 transition-colors hover:bg-[#edeff1]"
       >
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#15171a] text-sm font-semibold text-white">
-          {initials}
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#15171a] text-sm font-semibold text-white overflow-hidden">
+          <ProfilePictureView
+            userId={userId}
+            name={`${firstname} ${lastname}`}
+            imageUrl={profilePictureUrl}
+          />
         </div>
 
         <div className="min-w-0 flex-1">

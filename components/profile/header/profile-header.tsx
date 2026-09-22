@@ -3,10 +3,9 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ProfilePictureView from "@/components/profile-picture-view";
 import { EditProfileForm } from "./edit-profile/edit-profile-form";
 import { updateProfile } from "./edit-profile/update-profile";
-import { Blobatar } from "@blobatar/react";
-import "blobatar/motion.css";
 
 type ProfileHeaderProps = {
   id: string;
@@ -34,9 +33,6 @@ export function ProfileHeader({
 }: ProfileHeaderProps) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const profilePictureSrc = profilePictureUrl
-    ? `/api/images?key=${encodeURIComponent(profilePictureUrl)}`
-    : null;
   const bannerSrc = bannerUrl
     ? `/api/images?key=${encodeURIComponent(bannerUrl)}`
     : null;
@@ -81,17 +77,11 @@ export function ProfileHeader({
         <div className="relative px-5 pb-8 sm:px-7">
           <div className="absolute left-5 top-0 -translate-y-1/2 sm:left-7">
             <div className="size-32 overflow-hidden rounded-full border-4 border-white bg-gray-200 sm:size-36">
-              {profilePictureSrc ? (
-                <img
-                  src={profilePictureSrc}
-                  alt={`${name}'s profile picture`}
-                  className="size-full object-cover"
-                />
-              ) : (
-                <div className="grid size-full place-items-center">
-                  <Blobatar name={id} animate="always" />
-                </div>
-              )}
+              <ProfilePictureView
+                imageUrl={profilePictureUrl}
+                userId={id}
+                name={name}
+              />
             </div>
           </div>
 
@@ -127,7 +117,7 @@ export function ProfileHeader({
         <EditProfileForm
           id={id}
           initialValues={initialValues}
-          profilePictureUrl={profilePictureSrc}
+          profilePictureUrl={profilePictureUrl}
           bannerUrl={bannerSrc}
           onClose={() => setIsEditing(false)}
           onApply={async (values) => {

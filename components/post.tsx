@@ -1,6 +1,6 @@
 "use client";
 
-import { Blobatar } from "blobatar/react";
+import ProfilePictureView from "@/components/profile-picture-view";
 import { Heart, MessageCircle, Repeat2 } from "lucide-react";
 import { useState } from "react";
 
@@ -57,17 +57,11 @@ export default function Post({
           aria-hidden="true"
           className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#15171a] text-sm font-bold text-white"
         >
-          {profilePictureUrl ? (
-            <img
-              src={`/api/images?key=${encodeURIComponent(profilePictureUrl)}`}
-              alt={`${name}'s profile picture`}
-              className="size-full object-cover"
-            />
-          ) : (
-            <div className="grid size-full place-items-center">
-              <Blobatar name={userId} animate="always" />
-            </div>
-          )}
+          <ProfilePictureView
+            imageUrl={profilePictureUrl}
+            userId={userId}
+            name={`${firstName} ${lastName}`.trim() || username}
+          />
         </div>
 
         <div className="min-w-0 flex-1">

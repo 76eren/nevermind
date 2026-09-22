@@ -20,6 +20,8 @@ export default async function Profile({ params }: ProfilePageProps) {
     return <div>User not found</div>;
   }
 
+  // TODO: Currently there is a HUGE issue with prop drilling, for instance the userId gets passed down multiple times until it reaches the component using it.
+  // This is not ideal and should be refactored.
   return (
     <>
       <div className="mx-auto w-full max-w-6xl xl:w-[calc(100vw-36rem-4rem)] xl:-translate-x-36">
