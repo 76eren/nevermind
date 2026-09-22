@@ -1,4 +1,5 @@
-import { ProfileHeader } from "@/components/profile/profile-header";
+import { ProfileHeader } from "@/components/profile/header/profile-header";
+import ProfilePostsPage from "@/components/profile/posts/ProfilePostsView";
 import { getUserByUsername } from "@/lib/data/user";
 import { AuthenticatedUser } from "@/lib/models/AuthenticatedUser";
 import { requireSession } from "@/lib/route-guard";
@@ -19,6 +20,8 @@ export default async function Profile({ params }: ProfilePageProps) {
     return <div>User not found</div>;
   }
 
+  // TODO: Currently there is a HUGE issue with prop drilling, for instance the userId gets passed down multiple times until it reaches the component using it.
+  // This is not ideal and should be refactored.
   return (
     <>
       <div className="mx-auto w-full max-w-6xl xl:w-[calc(100vw-36rem-4rem)] xl:-translate-x-36">
@@ -32,6 +35,13 @@ export default async function Profile({ params }: ProfilePageProps) {
           profilePictureUrl={profile.image}
           bannerUrl={profile.banner}
           isOwnProfile={user.username === profile.username}
+        />
+
+        <ProfilePostsPage
+          username={profile.username}
+          firstname={profile.firstName}
+          lastname={profile.lastName}
+          profilePictureUrl={profile.image}
         />
       </div>
     </>

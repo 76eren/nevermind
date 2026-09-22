@@ -1,9 +1,9 @@
 "use client";
 
+import ProfilePictureView from "@/components/profile-picture-view";
 import { Camera, X } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { ProfileImageCropper } from "./profile-image-cropper";
-import { Blobatar } from "blobatar/react";
 
 type ImageKind = "avatar" | "banner";
 type ImageField = "profilePictureImage" | "profileBannerImage";
@@ -145,17 +145,11 @@ export function ProfileImageFields({
       </div>
 
       <div className="relative -mt-10 ml-4 size-24 overflow-hidden rounded-full border-4 border-white bg-slate-200">
-        {previews.avatar ? (
-          <img
-            src={previews.avatar}
-            alt="Profile picture preview"
-            className="size-full object-cover"
-          />
-        ) : (
-          <span className="grid size-full place-items-center text-3xl font-bold text-slate-500">
-            <Blobatar name={id} />
-          </span>
-        )}
+        <ProfilePictureView
+          imageUrl={previews.avatar}
+          userId={id}
+          name={name}
+        />
         {previews.avatar && (
           <button
             type="button"

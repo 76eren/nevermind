@@ -11,10 +11,10 @@ export type StoredImage = {
   lastModified: Date;
 };
 
-type UserImageType = "profile" | "banner";
+type UserImageType = "profile" | "banner" | "post";
 
 const userImageKeyPattern =
-  /^users\/[a-zA-Z0-9_-]+\/(profile|banner)\/[0-9a-f-]{36}\.(png|jpg|jpeg|webp)$/i;
+  /^users\/[a-zA-Z0-9_-]+\/(profile|banner|post)\/[0-9a-f-]{36}\.(png|jpg|jpeg|webp)$/i;
 
 function validateImageKey(
   objectKey: string,
@@ -88,6 +88,13 @@ export async function getProfilePicture(
 // Expects object key to be of form: `users/${userId}/banner/${imageId}.${extension}`
 export async function getBanner(objectKey: string): Promise<StoredImage> {
   validateImageKey(objectKey, "banner");
+
+  return getImage(objectKey);
+}
+
+// Expects object key to be of form: `users/${userId}/post/${imageId}.${extension}`
+export async function getPostImage(objectKey: string): Promise<StoredImage> {
+  validateImageKey(objectKey, "post");
 
   return getImage(objectKey);
 }

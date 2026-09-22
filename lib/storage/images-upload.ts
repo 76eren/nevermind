@@ -10,7 +10,7 @@ const supportedImageTypes = {
 } as const;
 
 type SupportedImageType = keyof typeof supportedImageTypes;
-type UserImageType = "profile" | "banner";
+type UserImageType = "profile" | "banner" | "post";
 
 export type UploadedImage = {
   imageId: string;
@@ -24,6 +24,7 @@ export type UploadedImage = {
 const maximumFileSizes: Record<UserImageType, number> = {
   profile: 5 * 1024 * 1024,
   banner: 10 * 1024 * 1024,
+  post: 10 * 1024 * 1024,
 };
 
 function validateUserId(userId: string): void {
@@ -102,4 +103,11 @@ export function uploadBanner(
   file: File,
 ): Promise<UploadedImage> {
   return uploadUserImage(userId, "banner", file);
+}
+
+export function uploadPostImage(
+  userId: string,
+  file: File,
+): Promise<UploadedImage> {
+  return uploadUserImage(userId, "post", file);
 }
