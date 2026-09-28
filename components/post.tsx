@@ -11,6 +11,7 @@ export type PostModel = {
   authorId: string;
   createdAt: Date;
   updatedAt: Date;
+  isLiked: boolean;
 };
 
 type PostProps = {
@@ -20,6 +21,7 @@ type PostProps = {
   firstName: string;
   lastName: string;
   profilePictureUrl: string | null;
+  onLikeChange: (isLiked: boolean) => void;
 };
 
 // This is a single post, can be used on both profile and home page. This is
@@ -31,10 +33,12 @@ export default function Post({
   firstName,
   lastName,
   profilePictureUrl,
+  onLikeChange,
 }: PostProps) {
   const [isCommenting, setIsCommenting] = useState(false);
-  const [isReposted, setIsReposted] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isReposted, setIsReposted] = useState(false); // rename to avoid confusion with future prop
+  const [isLikePending, setIsLikePending] = useState(false);
+  const liked = post.isLiked;
 
   const createdAt = new Date(post.createdAt);
 
@@ -46,17 +50,31 @@ export default function Post({
     setIsReposted((currentValue) => !currentValue);
   }
 
-  function handleLikeClick() {
-    setIsLiked((currentValue) => !currentValue);
+  async function handleLikeClick() {
+    if (isLikePending) {
+      return;
+    }
 
-    // Make a request to the API to like/unlike the post. This is a placeholder and should be replaced with actual API calls.
-    const response = fetch(`/api/posts/${post.id}/likes/me`, {
-      method: isLiked ? "DELETE" : "PUT",
-    }).then((res) => {
-      if (!res.ok) {
-        setIsLiked((currentValue) => !currentValue);
+    const previousLiked = liked;
+    const nextLiked = !previousLiked;
+
+    onLikeChange(nextLiked);
+    setIsLikePending(true);
+
+    try {
+      const response = await fetch(`/api/posts/${post.id}/likes/me`, {
+        method: nextLiked ? "PUT" : "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update like (${response.status})`);
       }
-    });
+    } catch (error) {
+      console.error("Error updating like:", error);
+      onLikeChange(previousLiked);
+    } finally {
+      setIsLikePending(false);
+    }
   }
 
   return (
@@ -139,9 +157,11 @@ export default function Post({
             <button
               type="button"
               onClick={handleLikeClick}
-              aria-pressed={isLiked}
+              disabled={isLikePending}
+              aria-pressed={liked}
+              aria-busy={isLikePending}
               className={`group inline-flex items-center gap-2 text-sm transition-colors focus-visible:outline-none ${
-                isLiked
+                liked
                   ? "text-[#ed145b]"
                   : "hover:text-[#ed145b] focus-visible:text-[#ed145b]"
               }`}
@@ -149,10 +169,10 @@ export default function Post({
               <span className="rounded-full p-2 transition-colors group-hover:bg-[#ed145b]/10 group-focus-visible:bg-[#ed145b]/10">
                 <Heart
                   aria-hidden="true"
-                  className={`size-[18px] ${isLiked ? "fill-current" : ""}`}
+                  className={`size-[18px] ${liked ? "fill-current" : ""}`}
                 />
               </span>
-              <span>{isLiked ? "Liked" : "Like"}</span>
+              <span>{liked ? "Liked" : "Like"}</span>
             </button>
           </div>
 
