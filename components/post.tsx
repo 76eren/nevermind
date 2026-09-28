@@ -48,6 +48,15 @@ export default function Post({
 
   function handleLikeClick() {
     setIsLiked((currentValue) => !currentValue);
+
+    // Make a request to the API to like/unlike the post. This is a placeholder and should be replaced with actual API calls.
+    const response = fetch(`/api/posts/${post.id}/likes/me`, {
+      method: isLiked ? "DELETE" : "PUT",
+    }).then((res) => {
+      if (!res.ok) {
+        setIsLiked((currentValue) => !currentValue);
+      }
+    });
   }
 
   return (
