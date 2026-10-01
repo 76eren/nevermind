@@ -38,7 +38,7 @@ export default function Post({
   const [isCommenting, setIsCommenting] = useState(false);
   const [isReposted, setIsReposted] = useState(false); // rename to avoid confusion with future prop
   const [isLikePending, setIsLikePending] = useState(false);
-  const liked = post.isLiked;
+  const liked = post.isLiked; // The parent component manages this hence why there is a onLikeChange callback.
 
   const createdAt = new Date(post.createdAt);
 

@@ -101,7 +101,7 @@ export default function ProfilePostsView({
     );
   }
 
-  // TODO: Not sure if this as this will also have to be provided on the home page as well.
+  // TODO: Not sure if I like this approach, as this will also have to be provided on the home page as well.
   function handleLikeChange(postId: string, isLiked: boolean) {
     setPosts(
       (currentPosts) =>
