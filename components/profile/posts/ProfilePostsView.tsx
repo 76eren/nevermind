@@ -20,6 +20,7 @@ type PostResponse = {
   authorId: string;
   createdAt: string;
   updatedAt: string;
+  isLiked: boolean;
 };
 
 export default function ProfilePostsView({
@@ -38,7 +39,7 @@ export default function ProfilePostsView({
       try {
         const response = await fetch(
           `/api/user/${encodeURIComponent(username)}/posts`,
-          { signal: controller.signal },
+          { cache: "no-store", signal: controller.signal },
         );
 
         if (!response.ok) {
@@ -55,6 +56,7 @@ export default function ProfilePostsView({
             authorId: post.authorId,
             createdAt: new Date(post.createdAt),
             updatedAt: new Date(post.updatedAt),
+            isLiked: post.isLiked,
           })),
         );
         setError("");
@@ -99,6 +101,16 @@ export default function ProfilePostsView({
     );
   }
 
+  // TODO: Not sure if I like this approach, as this will also have to be provided on the home page as well.
+  function handleLikeChange(postId: string, isLiked: boolean) {
+    setPosts(
+      (currentPosts) =>
+        currentPosts?.map((post) =>
+          post.id === postId ? { ...post, isLiked } : post,
+        ) ?? null,
+    );
+  }
+
   return (
     <div>
       {posts.map((post) => (
@@ -110,6 +122,7 @@ export default function ProfilePostsView({
           firstName={firstname}
           lastName={lastname}
           profilePictureUrl={profilePictureUrl}
+          onLikeChange={(isLiked) => handleLikeChange(post.id, isLiked)}
         />
       ))}
     </div>
