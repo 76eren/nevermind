@@ -21,6 +21,7 @@ type PostResponse = {
   createdAt: string;
   updatedAt: string;
   isLiked: boolean;
+  likeCount: number;
 };
 
 export default function ProfilePostsView({
@@ -48,6 +49,8 @@ export default function ProfilePostsView({
 
         const data = (await response.json()) as PostResponse[];
 
+        console.log("Fetched posts:", data);
+
         setPosts(
           data.map((post) => ({
             id: post.id,
@@ -57,6 +60,7 @@ export default function ProfilePostsView({
             createdAt: new Date(post.createdAt),
             updatedAt: new Date(post.updatedAt),
             isLiked: post.isLiked,
+            likeCount: post.likeCount,
           })),
         );
         setError("");
@@ -103,12 +107,14 @@ export default function ProfilePostsView({
 
   // TODO: Not sure if I like this approach, as this will also have to be provided on the home page as well.
   function handleLikeChange(postId: string, isLiked: boolean) {
-    setPosts(
-      (currentPosts) =>
-        currentPosts?.map((post) =>
-          post.id === postId ? { ...post, isLiked } : post,
-        ) ?? null,
-    );
+    if (!posts) return;
+
+    let current = posts.find((post) => post.id === postId);
+    if (!current) return;
+
+    current.isLiked = isLiked;
+    current.likeCount = isLiked ? current.likeCount + 1 : current.likeCount - 1;
+    setPosts([...posts]);
   }
 
   return (
@@ -122,6 +128,7 @@ export default function ProfilePostsView({
           firstName={firstname}
           lastName={lastname}
           profilePictureUrl={profilePictureUrl}
+          likeCount={post.likeCount}
           onLikeChange={(isLiked) => handleLikeChange(post.id, isLiked)}
         />
       ))}

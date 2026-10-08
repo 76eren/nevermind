@@ -3,6 +3,7 @@
 import ProfilePictureView from "@/components/profile-picture-view";
 import { Heart, MessageCircle, Repeat2 } from "lucide-react";
 import { useState } from "react";
+import { formatCount } from "@/lib/count-formatter";
 
 export type PostModel = {
   id: string;
@@ -12,6 +13,7 @@ export type PostModel = {
   createdAt: Date;
   updatedAt: Date;
   isLiked: boolean;
+  likeCount: number; // Because counts like 1000000 should be represented as 1M
 };
 
 type PostProps = {
@@ -21,6 +23,7 @@ type PostProps = {
   firstName: string;
   lastName: string;
   profilePictureUrl: string | null;
+  likeCount: number; // Because counts like 1000000 should be represented as 1M
   onLikeChange: (isLiked: boolean) => void;
 };
 
@@ -172,7 +175,7 @@ export default function Post({
                   className={`size-[18px] ${liked ? "fill-current" : ""}`}
                 />
               </span>
-              <span>{liked ? "Liked" : "Like"}</span>
+              <span>{formatCount(post.likeCount)} likes</span>
             </button>
           </div>
 

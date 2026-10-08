@@ -11,6 +11,7 @@ type UserPostsRouteContext = {
   }>;
 };
 
+// TODO: deifne a proper response schema for this route.
 export async function GET(
   _request: Request,
   { params }: UserPostsRouteContext,
@@ -31,6 +32,7 @@ export async function GET(
       id: post.id,
       content: post.content,
       authorId: post.authorId,
+      likeCount: db.$count(postLikes, eq(postLikes.postId, post.id)),
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
       image: post.image,
