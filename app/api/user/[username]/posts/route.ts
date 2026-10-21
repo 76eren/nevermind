@@ -4,6 +4,7 @@ import { post } from "@/db/post-schema";
 import { desc, eq, sql } from "drizzle-orm";
 import { postLikes } from "@/db/post-likes-schema";
 import { requireSession } from "@/lib/route-guard";
+import { PostModel } from "@/lib/models/post/PostModel";
 
 type UserPostsRouteContext = {
   params: Promise<{
@@ -11,7 +12,6 @@ type UserPostsRouteContext = {
   }>;
 };
 
-// TODO: deifne a proper response schema for this route.
 export async function GET(
   _request: Request,
   { params }: UserPostsRouteContext,
@@ -27,7 +27,7 @@ export async function GET(
   const self = await requireSession();
 
   // Query ALL posts for the user and return them in the response
-  const posts = await db
+  const posts: PostModel[] = await db
     .select({
       id: post.id,
       content: post.content,

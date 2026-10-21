@@ -4,17 +4,7 @@ import ProfilePictureView from "@/components/profile-picture-view";
 import { Heart, MessageCircle, Repeat2 } from "lucide-react";
 import { useState } from "react";
 import { formatCount } from "@/lib/count-formatter";
-
-export type PostModel = {
-  id: string;
-  content: string;
-  imageUrl?: string | null;
-  authorId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isLiked: boolean;
-  likeCount: number; // Because counts like 1000000 should be represented as 1M
-};
+import { PostModel } from "@/lib/models/post/PostModel";
 
 type PostProps = {
   userId: string;
@@ -23,7 +13,7 @@ type PostProps = {
   firstName: string;
   lastName: string;
   profilePictureUrl: string | null;
-  likeCount: number; // Because counts like 1000000 should be represented as 1M
+  likeCount: number;
   onLikeChange: (isLiked: boolean) => void;
 };
 
@@ -116,10 +106,10 @@ export default function Post({
             {post.content}
           </p>
 
-          {post.imageUrl && (
+          {post.image && (
             <div className="mt-3 overflow-hidden rounded-2xl border border-[#dfe3e6] bg-[#f4f5f6]">
               <img
-                src={getPostImageSrc(post.imageUrl)}
+                src={getPostImageSrc(post.image)}
                 alt="Post attachment"
                 loading="lazy"
                 className="max-h-[32rem] w-full object-cover"

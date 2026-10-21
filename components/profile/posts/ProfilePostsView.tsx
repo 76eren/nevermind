@@ -3,7 +3,8 @@
 // This component is used to display a user's posts on their profile page.
 // I will not re-use this component for the home screen as it doesn't make sense to show the user's own posts on the home page
 
-import Post, { type PostModel } from "@/components/post";
+import Post from "@/components/post";
+import { PostModel } from "@/lib/models/post/PostModel";
 import { useEffect, useState } from "react";
 
 type ProfilePostsViewProps = {
@@ -12,18 +13,6 @@ type ProfilePostsViewProps = {
   lastname: string;
   profilePictureUrl: string | null;
 };
-
-type PostResponse = {
-  id: string;
-  content: string;
-  image: string | null;
-  authorId: string;
-  createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  likeCount: number;
-};
-
 export default function ProfilePostsView({
   username,
   firstname,
@@ -47,18 +36,18 @@ export default function ProfilePostsView({
           throw new Error(`Failed to fetch posts (${response.status})`);
         }
 
-        const data = (await response.json()) as PostResponse[];
+        const data = (await response.json()) as PostModel[];
 
         console.log("Fetched posts:", data);
 
         setPosts(
-          data.map((post) => ({
+          data.map((post: PostModel) => ({
             id: post.id,
             content: post.content,
-            imageUrl: post.image,
+            image: post.image,
             authorId: post.authorId,
-            createdAt: new Date(post.createdAt),
-            updatedAt: new Date(post.updatedAt),
+            createdAt: post.createdAt,
+            updatedAt: post.updatedAt,
             isLiked: post.isLiked,
             likeCount: post.likeCount,
           })),
@@ -119,7 +108,7 @@ export default function ProfilePostsView({
 
   return (
     <div>
-      {posts.map((post) => (
+      {posts.map((post: PostModel) => (
         <Post
           userId={post.authorId}
           key={post.id}
